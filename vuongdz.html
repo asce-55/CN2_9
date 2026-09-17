@@ -1,12 +1,602 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>v-style</title>
-	</head>
-	<body>
-		<div id="root"></div>
-		<script type="module" src="/src/main.jsx"></script>
-	</body>
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Style AI | Việt Phục Remix</title>
+    
+    <!-- Google Fonts: Playfair Display (Heritage) & Inter (Modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        vgold: { 300: '#FDE047', 500: '#D4AF37', 700: '#A17F1A' },
+                        vred: { 500: '#C8102E', 700: '#8A0B20' },
+                        vdark: { 800: '#1A1A1A', 900: '#0F0F0F' }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, filter: 'drop-shadow(0 0 10px rgba(212, 175, 55, 0.5))' },
+                            '50%': { opacity: .5, filter: 'drop-shadow(0 0 20px rgba(212, 175, 55, 0.8))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Glassmorphism & Specific Effects -->
+    <style>
+        body {
+            background-color: #0F0F0F;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(200, 16, 46, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(200, 16, 46, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(212, 175, 55, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(200, 16, 46, 0.2));
+            border-color: rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(212, 175, 55, 0.5);
+        }
+
+        .glass-button.active {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), rgba(200, 16, 46, 0.4));
+            border-color: #D4AF37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F0F0F; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+        /* Hologram Preview CSS */
+        .hologram-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mannequin {
+            position: relative;
+            width: 160px;
+            height: 320px;
+            transition: all 0.5s ease;
+        }
+
+        .m-head {
+            width: 50px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .m-body {
+            width: 120px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 20px 20px 5px 5px;
+            margin: 10px auto 0;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .m-acc {
+            position: absolute;
+            font-size: 2rem;
+            color: #D4AF37;
+            transition: all 0.3s ease;
+            opacity: 0;
+            z-index: 20;
+        }
+
+        /* Hide steps initially */
+        .step-content { display: none; animation: fadeIn 0.5s ease forwards; }
+        .step-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans selection:bg-vgold-500 selection:text-vdark-900">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 glass-panel border-b-0 border-white/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-vgold-500 to-vred-500 flex items-center justify-center text-white font-bold text-xl shadow-[0_0_15px_rgba(212,175,55,0.5)]">
+                    V
+                </div>
+                <h1 class="font-serif text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-vgold-300 to-vgold-700">
+                    V-Style AI
+                </h1>
+            </div>
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+                <a href="#" class="hover:text-vgold-500 transition-colors">Trang chủ</a>
+                <a href="#workspace" class="hover:text-vgold-500 transition-colors">Phối đồ AI</a>
+                <a href="#" class="hover:text-vgold-500 transition-colors">Thư viện Di sản</a>
+            </nav>
+            <button class="md:hidden text-white"><i class="fa-solid fa-bars text-xl"></i></button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0 flex justify-center items-center opacity-20 pointer-events-none">
+            <!-- Abstract background shape -->
+            <div class="w-[600px] h-[600px] bg-gradient-to-tr from-vred-700 to-vgold-500 rounded-full blur-[120px] animate-float"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full glass-panel text-vgold-500 text-xs font-bold tracking-widest uppercase mb-6 border-vgold-500/30">
+                <i class="fa-solid fa-sparkles mr-2"></i>AI Arena 2024
+            </span>
+            <h2 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                Sáng tạo Di sản <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-vgold-300 via-white to-vgold-700">Định hình Phong cách</span>
+            </h2>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+                Trải nghiệm phối trang phục truyền thống Việt Nam theo phong cách Gen Z. Công nghệ AI Guardrail giúp bạn thoả sức sáng tạo mà vẫn tôn trọng giá trị lịch sử.
+            </p>
+            <a href="#workspace" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-vgold-500 to-vgold-700 text-vdark-900 font-bold text-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all transform hover:scale-105">
+                Bắt đầu Mix & Match <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <section id="workspace" class="min-h-screen py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- LEFT COLUMN: CONTROLS (Wizard) -->
+                <div class="lg:col-span-5 glass-panel rounded-3xl p-8 flex flex-col h-full">
+                    <h3 class="font-serif text-2xl font-bold mb-6 text-white border-b border-white/10 pb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-vgold-500 mr-2"></i> Studio Sáng Tạo
+                    </h3>
+
+                    <!-- Step Indicators -->
+                    <div class="flex justify-between mb-8 relative">
+                        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -z-10 -translate-y-1/2"></div>
+                        <div class="step-indicator flex flex-col items-center gap-2" id="ind-1">
+                            <div class="w-10 h-10 rounded-full bg-vgold-500 text-vdark-900 flex items-center justify-center font-bold shadow-[0_0_10px_rgba(212,175,55,0.5)] transition-all">1</div>
+                            <span class="text-xs text-vgold-500 font-medium">Sự kiện</span>
+                        </div>
+                        <div class="step-indicator flex flex-col items-center gap-2" id="ind-2">
+                            <div class="w-10 h-10 rounded-full bg-vdark-800 border border-white/20 text-gray-400 flex items-center justify-center font-bold transition-all">2</div>
+                            <span class="text-xs text-gray-400 font-medium">Trang phục</span>
+                        </div>
+                        <div class="step-indicator flex flex-col items-center gap-2" id="ind-3">
+                            <div class="w-10 h-10 rounded-full bg-vdark-800 border border-white/20 text-gray-400 flex items-center justify-center font-bold transition-all">3</div>
+                            <span class="text-xs text-gray-400 font-medium">Phụ kiện</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Event -->
+                    <div id="step-1" class="step-content active flex-grow">
+                        <h4 class="text-lg font-medium text-gray-200 mb-4">Bạn muốn diện Việt Phục đi đâu?</h4>
+                        <div class="grid grid-cols-1 gap-4" id="event-list">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Garment -->
+                    <div id="step-2" class="step-content flex-grow">
+                        <h4 class="text-lg font-medium text-gray-200 mb-4">Chọn dáng áo truyền thống:</h4>
+                        <div class="grid grid-cols-2 gap-4" id="garment-list">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Accessory -->
+                    <div id="step-3" class="step-content flex-grow">
+                        <h4 class="text-lg font-medium text-gray-200 mb-4">Thêm điểm nhấn (Phụ kiện):</h4>
+                        <div class="grid grid-cols-2 gap-4" id="accessory-list">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-8 pt-6 border-t border-white/10">
+                        <button id="btn-prev" class="px-6 py-2 rounded-full glass-button text-gray-300 hidden" onclick="changeStep(-1)">
+                            <i class="fa-solid fa-chevron-left mr-2"></i> Quay lại
+                        </button>
+                        <button id="btn-next" class="px-6 py-2 rounded-full bg-white text-vdark-900 font-bold hover:bg-vgold-300 transition-colors ml-auto" onclick="changeStep(1)" disabled>
+                            Tiếp tục <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: PREVIEW & GUARDRAIL -->
+                <div class="lg:col-span-7 flex flex-col gap-6">
+                    
+                    <!-- Preview Area -->
+                    <div class="glass-panel rounded-3xl p-6 flex-grow relative overflow-hidden flex flex-col items-center justify-center min-h-[450px]">
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            <span class="px-3 py-1 rounded-full bg-black/50 text-xs text-gray-300 border border-white/10 backdrop-blur-md">
+                                <i class="fa-solid fa-vr-cardboard mr-1 text-vgold-500"></i> Hologram Preview
+                            </span>
+                        </div>
+                        
+                        <!-- Abstract Mannequin / Avatar -->
+                        <div class="hologram-container animate-pulse-glow">
+                            <div class="mannequin" id="avatar-preview">
+                                <!-- Accessory Top (e.g., Hat) -->
+                                <i id="preview-acc-top" class="fa-solid fa-hat-wizard m-acc" style="top: -20px; left: 50%; transform: translateX(-50%);"></i>
+                                
+                                <div class="m-head">
+                                    <!-- Accessory Face (e.g., Glasses) -->
+                                    <i id="preview-acc-face" class="fa-solid fa-glasses m-acc" style="top: 20px; left: 50%; transform: translateX(-50%); font-size: 1.5rem;"></i>
+                                </div>
+                                
+                                <!-- Garment Body -->
+                                <div class="m-body flex items-center justify-center flex-col" id="preview-garment">
+                                    <span id="preview-garment-name" class="text-white/50 text-xs font-serif text-center px-2 opacity-0 transition-opacity">Chưa chọn trang phục</span>
+                                </div>
+                                
+                                <!-- Accessory Bottom (e.g., Shoes) -->
+                                <i id="preview-acc-bottom" class="fa-solid fa-shoe-prints m-acc" style="bottom: -30px; left: 50%; transform: translateX(-50%);"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Cultural Guardrail Panel -->
+                    <div class="glass-panel rounded-3xl p-6 relative overflow-hidden">
+                        <!-- Decorative glow -->
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-vgold-500/10 rounded-full blur-2xl"></div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-black/30 border border-white/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-robot text-xl text-vgold-500"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-serif text-xl font-bold text-white">AI Cultural Guardrail</h4>
+                                    <!-- Status Badge -->
+                                    <span id="guardrail-status" class="px-3 py-1 rounded-full text-xs font-bold bg-gray-500/20 text-gray-400 border border-gray-500/30 transition-colors">
+                                        Đang chờ dữ liệu...
+                                    </span>
+                                </div>
+                                
+                                <div class="space-y-3 mt-4">
+                                    <!-- History Info -->
+                                    <div class="bg-black/20 p-3 rounded-xl border border-white/5">
+                                        <p class="text-xs text-vgold-500 font-bold mb-1 uppercase tracking-wider"><i class="fa-solid fa-book-open-reader mr-1"></i> Ghi chép lịch sử</p>
+                                        <p id="guardrail-history" class="text-sm text-gray-300 leading-relaxed italic">
+                                            Hãy chọn một trang phục để xem thông tin lịch sử.
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- AI Feedback -->
+                                    <div class="bg-black/20 p-3 rounded-xl border border-white/5">
+                                        <p class="text-xs text-blue-400 font-bold mb-1 uppercase tracking-wider"><i class="fa-solid fa-lightbulb mr-1"></i> Đánh giá phối đồ</p>
+                                        <p id="guardrail-feedback" class="text-sm text-gray-300 leading-relaxed">
+                                            Hệ thống AI sẽ phân tích mức độ phù hợp giữa trang phục, phụ kiện và bối cảnh sự kiện của bạn.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8 text-center text-gray-500 text-sm mt-12 bg-black/50">
+        <p>&copy; 2024 V-Style AI - Sản phẩm dự thi AI Arena. Code bằng ❤️ và Vanilla JS.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. MOCK DATA (Cơ sở dữ liệu giả lập) ---
+        const db = {
+            events: [
+                { id: 'ev1', name: 'Dạo phố / Streetwear', icon: 'fa-street-view', vibe: 'modern' },
+                { id: 'ev2', name: 'Sự kiện thảm đỏ / Party', icon: 'fa-glass-cheers', vibe: 'creative' },
+                { id: 'ev3', name: 'Lễ hội truyền thống', icon: 'fa-torii-gate', vibe: 'traditional' }
+            ],
+            garments: [
+                { 
+                    id: 'g1', name: 'Áo Ngũ Thân Lập Lĩnh', 
+                    desc: 'Kín đáo, đĩnh đạc', icon: 'fa-shirt',
+                    history: 'Ra đời từ thời chúa Nguyễn Phúc Khoát (1744), là tiền thân của áo dài hiện đại. Tượng trưng cho đạo lý làm người (4 thân ngoài là tứ thân phụ mẫu, 1 thân trong là bản thân).',
+                    styleClass: 'bg-gradient-to-b from-blue-800 to-blue-950 border-blue-500/50', // Màu sắc hiển thị trên hologram
+                    era: 'nguyen', formality: 'high'
+                },
+                { 
+                    id: 'g2', name: 'Áo Tấc', 
+                    desc: 'Tay thụng, trang trọng', icon: 'fa-person-praying',
+                    history: 'Là loại áo ngũ thân tay thụng, mặc cùng quần dài. Thường dùng trong các dịp lễ tết, quan hôn tang tế thời Nguyễn. Dành cho mọi tầng lớp.',
+                    styleClass: 'bg-gradient-to-b from-green-800 to-green-950 border-green-500/50 w-[140px]', // Rộng hơn chút
+                    era: 'nguyen', formality: 'very_high'
+                },
+                { 
+                    id: 'g3', name: 'Áo Nhật Bình', 
+                    desc: 'Quyền quý, rực rỡ', icon: 'fa-chess-queen',
+                    history: 'Thường phục của bậc Hoàng Thái hậu, Hoàng hậu, Hoàng quý phi và là lễ phục của các bậc phi tần, công chúa thời Nguyễn. Đặc trưng bởi hoa văn ở cổ áo tạo thành hình chữ nhật.',
+                    styleClass: 'bg-gradient-to-b from-vred-700 to-orange-600 border-vgold-500',
+                    era: 'nguyen_royal', formality: 'royal'
+                },
+                { 
+                    id: 'g4', name: 'Áo Giao Lĩnh', 
+                    desc: 'Cổ chéo, cổ kính', icon: 'fa-leaf',
+                    history: 'Loại áo cổ chéo phổ biến ở Việt Nam trước thế kỷ 19 (thời Lý, Trần, Lê). Chịu ảnh hưởng từ văn hóa Á Đông cổ đại nhưng có nét biến tấu riêng của người Việt.',
+                    styleClass: 'bg-gradient-to-b from-stone-600 to-stone-800 border-stone-400',
+                    era: 'le_tran', formality: 'high'
+                }
+            ],
+            accessories: [
+                { id: 'a1', name: 'Khăn vấn / Khăn đóng', type: 'top', icon: 'fa-ring', style: 'fa-ring', vibe: 'traditional' },
+                { id: 'a2', name: 'Nón quai thao', type: 'top', icon: 'fa-brands fa-redhat', style: 'fa-brands fa-redhat', vibe: 'traditional' },
+                { id: 'a3', name: 'Kính râm Cyberpunk', type: 'face', icon: 'fa-glasses', style: 'fa-glasses', vibe: 'modern' },
+                { id: 'a4', name: 'Sneaker Chunky', type: 'bottom', icon: 'fa-shoe-prints', style: 'fa-shoe-prints', vibe: 'modern' }
+            ]
+        };
+
+        // --- 2. STATE MANAGEMENT (Quản lý trạng thái) ---
+        let currentStep = 1;
+        const state = {
+            event: null,
+            garment: null,
+            accessory: null
+        };
+
+        // --- 3. DOM ELEMENTS ---
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        
+        // --- 4. INITIALIZATION & RENDERING ---
+        function init() {
+            renderList('event-list', db.events, 'event');
+            renderList('garment-list', db.garments, 'garment');
+            renderList('accessory-list', db.accessories, 'accessory');
+            updateUI();
+        }
+
+        function renderList(containerId, dataArray, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = dataArray.map(item => `
+                <button class="glass-button p-4 rounded-xl text-left flex flex-col gap-2 w-full item-btn" 
+                        data-type="${type}" data-id="${item.id}" onclick="selectItem('${type}', '${item.id}')">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-vgold-500">
+                            <i class="fa-solid ${item.icon}"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-white">${item.name}</h5>
+                            ${item.desc ? `<p class="text-xs text-gray-400">${item.desc}</p>` : ''}
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        // --- 5. INTERACTION LOGIC ---
+        function selectItem(type, id) {
+            // Update state
+            const item = db[`${type}s`].find(i => i.id === id);
+            state[type] = item;
+
+            // Update Active UI class
+            const buttons = document.querySelectorAll(`[data-type="${type}"]`);
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-type="${type}"][data-id="${id}"]`).classList.add('active');
+
+            // Enable Next button if current step requirement is met
+            btnNext.disabled = false;
+            btnNext.classList.remove('bg-white', 'text-vdark-900');
+            btnNext.classList.add('bg-vgold-500', 'text-white', 'shadow-[0_0_15px_rgba(212,175,55,0.5)]');
+
+            // Trigger updates
+            updateHologram();
+            updateGuardrail();
+        }
+
+        function changeStep(direction) {
+            if (direction === 1 && currentStep < 3) currentStep++;
+            else if (direction === -1 && currentStep > 1) currentStep--;
+            updateUI();
+        }
+
+        function updateUI() {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            // Show current step
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+
+            // Update Indicators
+            for (let i = 1; i <= 3; i++) {
+                const ind = document.getElementById(`ind-${i}`).querySelector('div');
+                if (i < currentStep) {
+                    ind.className = 'w-10 h-10 rounded-full bg-vgold-700 text-white flex items-center justify-center font-bold transition-all';
+                    ind.innerHTML = '<i class="fa-solid fa-check"></i>';
+                } else if (i === currentStep) {
+                    ind.className = 'w-10 h-10 rounded-full bg-vgold-500 text-vdark-900 flex items-center justify-center font-bold shadow-[0_0_10px_rgba(212,175,55,0.5)] transition-all';
+                    ind.innerHTML = i;
+                } else {
+                    ind.className = 'w-10 h-10 rounded-full bg-vdark-800 border border-white/20 text-gray-400 flex items-center justify-center font-bold transition-all';
+                    ind.innerHTML = i;
+                }
+            }
+
+            // Button visibility
+            btnPrev.classList.toggle('hidden', currentStep === 1);
+            
+            // Check if next button should be disabled based on state
+            const currentType = currentStep === 1 ? 'event' : (currentStep === 2 ? 'garment' : 'accessory');
+            if (!state[currentType] && currentStep !== 3) { // Allow finishing on step 3 even without accessory
+                btnNext.disabled = true;
+                btnNext.className = 'px-6 py-2 rounded-full bg-white/20 text-gray-400 font-bold ml-auto cursor-not-allowed';
+            } else {
+                btnNext.disabled = false;
+                btnNext.className = 'px-6 py-2 rounded-full bg-vgold-500 text-white font-bold hover:bg-vgold-300 transition-colors ml-auto shadow-[0_0_15px_rgba(212,175,55,0.5)]';
+            }
+
+            if (currentStep === 3) {
+                btnNext.innerHTML = 'Hoàn thành <i class="fa-solid fa-check ml-2"></i>';
+            } else {
+                btnNext.innerHTML = 'Tiếp tục <i class="fa-solid fa-chevron-right ml-2"></i>';
+            }
+        }
+
+        // --- 6. VISUAL PREVIEW LOGIC (Hologram) ---
+        function updateHologram() {
+            const body = document.getElementById('preview-garment');
+            const nameLabel = document.getElementById('preview-garment-name');
+            
+            // Reset icons
+            document.querySelectorAll('.m-acc').forEach(el => el.style.opacity = '0');
+
+            if (state.garment) {
+                // Clear old classes, add new style classes
+                body.className = `m-body flex items-center justify-center flex-col shadow-[0_0_30px_rgba(255,255,255,0.1)] ${state.garment.styleClass}`;
+                nameLabel.textContent = state.garment.name;
+                nameLabel.style.opacity = '1';
+            }
+
+            if (state.accessory) {
+                let iconEl;
+                if (state.accessory.type === 'top') iconEl = document.getElementById('preview-acc-top');
+                if (state.accessory.type === 'face') iconEl = document.getElementById('preview-acc-face');
+                if (state.accessory.type === 'bottom') iconEl = document.getElementById('preview-acc-bottom');
+                
+                if (iconEl) {
+                    iconEl.className = `fa-solid ${state.accessory.style} m-acc`;
+                    iconEl.style.opacity = '1';
+                }
+            }
+        }
+
+        // --- 7. AI GUARDRAIL ENGINE (Lõi kiểm duyệt văn hóa) ---
+        function updateGuardrail() {
+            const statusEl = document.getElementById('guardrail-status');
+            const historyEl = document.getElementById('guardrail-history');
+            const feedbackEl = document.getElementById('guardrail-feedback');
+
+            if (!state.garment) return;
+
+            // Update History
+            historyEl.innerHTML = `<strong>${state.garment.name}:</strong> ${state.garment.history}`;
+
+            // Analyze Combination
+            let status = 'neutral'; // neutral, success, warning, error
+            let message = '';
+
+            if (state.garment && !state.accessory && !state.event) {
+                status = 'success';
+                message = 'Trang phục nguyên bản. Hãy chọn thêm bối cảnh và phụ kiện để AI đánh giá phong cách Mix & Match của bạn.';
+            } 
+            else if (state.garment && state.event && !state.accessory) {
+                if (state.garment.formality === 'royal' && state.event.vibe === 'modern') {
+                    status = 'warning';
+                    message = `Bạn đang mang trang phục cung đình (${state.garment.name}) vào bối cảnh ${state.event.name}. Rất phá cách, nhưng hãy cẩn thận để không làm mất đi vẻ trang nghiêm của trang phục.`;
+                } else {
+                    status = 'success';
+                    message = 'Lựa chọn trang phục phù hợp với bối cảnh.';
+                }
+            }
+            else if (state.garment && state.event && state.accessory) {
+                // The core AI logic simulation
+                const isModernAcc = state.accessory.vibe === 'modern';
+                const isRoyal = state.garment.formality === 'royal';
+                const isTradEvent = state.event.vibe === 'traditional';
+
+                if (isTradEvent && isModernAcc) {
+                    status = 'error';
+                    message = `CẢNH BÁO VĂN HÓA: Bạn đang tham gia sự kiện truyền thống nhưng lại dùng phụ kiện hiện đại (${state.accessory.name}). Điều này có thể gây phản cảm. Đề xuất: Đổi sang Khăn Vấn hoặc Nón Lá.`;
+                } 
+                else if (isRoyal && isModernAcc) {
+                    status = 'warning';
+                    message = `PHONG CÁCH GEN Z (Modern Heritage): Kết hợp ${state.garment.name} với ${state.accessory.name}. Một sự pha trộn táo bạo giữa Hoàng gia và Cyberpunk. Phù hợp cho Fashion Show hoặc chụp ảnh nghệ thuật, không dùng cho nghi lễ.`;
+                }
+                else if (!isModernAcc && state.event.vibe === 'modern') {
+                    status = 'success';
+                    message = `BẢO TỒN DI SẢN: Mang nguyên set đồ truyền thống xuống phố. Bạn đang góp phần lan tỏa văn hóa Việt phục rất tuyệt vời!`;
+                }
+                else {
+                    status = 'success';
+                    message = `Hoàn hảo! Sự kết hợp hài hòa, tôn trọng nguyên bản nhưng vẫn thể hiện được cá tính riêng.`;
+                }
+            }
+
+            // Render Status Badge
+            if (status === 'success') {
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400 border border-green-500/30';
+                statusEl.innerHTML = '<i class="fa-solid fa-check-circle mr-1"></i> Phù hợp';
+            } else if (status === 'warning') {
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+                statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> Phá cách / Chú ý';
+            } else if (status === 'error') {
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30';
+                statusEl.innerHTML = '<i class="fa-solid fa-circle-xmark mr-1"></i> Cảnh báo lệch chuẩn';
+            } else {
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30';
+                statusEl.innerHTML = '<i class="fa-solid fa-circle-info mr-1"></i> Đang phân tích';
+            }
+
+            // Render Feedback Text with typing effect simulation
+            feedbackEl.innerHTML = `<span class="opacity-0 animate-[fadeIn_0.5s_ease_forwards]">${message}</span>`;
+        }
+
+        // Run on load
+        window.onload = init;
+
+    </script>
+</body>
 </html>
