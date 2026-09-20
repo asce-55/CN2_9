@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Việt Phục Remix — Tủ Đồ Ảo & Phối Đồ Truyền Thống Đương Đại</title>
+  
+  <!-- Tailwind CSS qua CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Serif cho Tiêu đề (Cormorant Garamond) & Sans-serif cho Nội dung (Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Cấu hình Tailwind Color & Fonts theo phong cách Minimalist -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'off-white': '#FAF8F5',
+            'charcoal': '#262626',
+            'charcoal-muted': '#595959',
+            'stone-border': '#E8E4DD',
+            'surface-card': '#FFFFFF',
+            'surface-warm': '#F4F1EB',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF8F5;
+      color: #262626;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+  </style>
+</head>
+<body class="bg-off-white text-charcoal antialiased min-h-screen flex flex-col">
+
+  <!-- =========================================================
+       1. NAVIGATION BAR (Thanh điều hướng dính - sticky)
+       Chứa Logo và các tab: Khám phá, Tủ đồ ảo, Studio, Lookbook
+  ========================================================== -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-[#FAF8F5]/90 border-b border-stone-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 border border-charcoal bg-off-white flex items-center justify-center rounded-sm group-hover:bg-charcoal transition-colors">
+            <span class="font-serif text-lg font-bold text-charcoal group-hover:text-off-white transition-colors">VR</span>
+          </div>
+          <div>
+            <span class="font-serif text-2xl font-semibold tracking-tight block">Việt Phục Remix</span>
+            <span class="text-[10px] tracking-[0.2em] uppercase text-charcoal-muted block">Heritage Redefined</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Tabs -->
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+          <button class="nav-tab px-4 py-2 text-sm text-charcoal-muted hover:text-charcoal hover:bg-[#F2EFE9] rounded-md transition" data-tab="explore">Khám phá</button>
+          <button class="nav-tab px-4 py-2 text-sm font-semibold text-charcoal bg-[#EFECE6] rounded-md transition relative" data-tab="closet">
+            Tủ đồ ảo
+            <span class="absolute bottom-0 left-4 right-4 h-[2px] bg-charcoal rounded-full"></span>
+          </button>
+          <button class="nav-tab px-4 py-2 text-sm text-charcoal-muted hover:text-charcoal hover:bg-[#F2EFE9] rounded-md transition" data-tab="studio">Studio</button>
+          <button class="nav-tab px-4 py-2 text-sm text-charcoal-muted hover:text-charcoal hover:bg-[#F2EFE9] rounded-md transition" data-tab="lookbook">Lookbook</button>
+        </nav>
+
+        <!-- Quick Upload Action -->
+        <div class="flex items-center gap-3">
+          <button id="nav-upload-btn" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-off-white bg-charcoal hover:bg-[#3D3F43] rounded-md shadow-sm transition active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            <span>Tải Lên</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       2. HERO SECTION
+       Câu chào mừng thanh lịch + Dropdowns: Thời tiết, Sự kiện, Phong cách
+  ========================================================== -->
+  <section class="pt-12 pb-10 sm:pt-16 sm:pb-14 border-b border-stone-border bg-off-white relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D9D4CB] bg-[#F4F1EB] text-xs tracking-widest uppercase text-charcoal-muted mb-5">
+        <span class="w-1.5 h-1.5 rounded-full bg-charcoal"></span>
+        <span>Thời Trang Di Sản & Tinh Thần Đương Đại</span>
+      </div>
+
+      <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-charcoal leading-tight max-w-4xl mx-auto">
+        Phục Cổ Tân Thời, <br class="hidden sm:inline">
+        <span class="italic text-charcoal-muted font-light">Hơi Thở Ngàn Năm Trong Tủ Đồ Số</span>
+      </h1>
+
+      <p class="mt-4 text-base sm:text-lg text-charcoal-muted max-w-2xl mx-auto font-light leading-relaxed">
+        Giao thoa giữa nét quyền quý của Áo Tấc, Nhật Bình cùng nhịp sống tối giản đương đại. 
+        Dễ dàng phân loại, phối phục trang và trải nghiệm tủ đồ ảo thông minh.
+      </p>
+
+      <!-- Bộ lọc (Dropdown): Thời tiết, Sự kiện, Phong cách -->
+      <div class="mt-10 max-w-4xl mx-auto bg-surface-warm border border-[#E2DDD3] rounded-xl p-4 sm:p-5 shadow-xs">
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-stone-border text-xs text-charcoal-muted">
+          <div class="flex items-center gap-2 font-medium">
+            <svg class="w-4 h-4 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            <span class="uppercase tracking-wider font-semibold text-charcoal">Bộ Lọc Tủ Đồ</span>
+          </div>
+          <span id="filtered-counter" class="text-charcoal-muted">Hiển thị 8 trang phục</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-left">
+          
+          <!-- Dropdown Thời Tiết -->
+          <div>
+            <label for="filter-weather" class="block text-xs uppercase tracking-wider font-medium text-charcoal-muted mb-1.5">
+              Thời Tiết
+            </label>
+            <div class="relative">
+              <select id="filter-weather" class="w-full appearance-none bg-off-white border border-[#D9D4CB] hover:border-charcoal focus:border-charcoal focus:outline-none rounded-lg px-3.5 py-2.5 text-sm text-charcoal cursor-pointer">
+                <option value="all">Tất cả thời tiết</option>
+                <option value="sunny">Nắng ráo / Hạ</option>
+                <option value="cool">Mát mẻ / Thu</option>
+                <option value="cold">Se lạnh / Đông</option>
+                <option value="spring">Xuân ấm áp</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-charcoal-muted">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdown Sự Kiện -->
+          <div>
+            <label for="filter-event" class="block text-xs uppercase tracking-wider font-medium text-charcoal-muted mb-1.5">
+              Sự Kiện
+            </label>
+            <div class="relative">
+              <select id="filter-event" class="w-full appearance-none bg-off-white border border-[#D9D4CB] hover:border-charcoal focus:border-charcoal focus:outline-none rounded-lg px-3.5 py-2.5 text-sm text-charcoal cursor-pointer">
+                <option value="all">Tất cả sự kiện</option>
+                <option value="ceremony">Lễ hội cổ truyền & Hỷ sự</option>
+                <option value="casual">Dạo phố & Cà phê</option>
+                <option value="art">Sự kiện nghệ thuật</option>
+                <option value="gala">Dạ tiệc & Gala</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-charcoal-muted">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdown Phong Cách -->
+          <div>
+            <label for="filter-style" class="block text-xs uppercase tracking-wider font-medium text-charcoal-muted mb-1.5">
+              Phong Cách
+            </label>
+            <div class="relative">
+              <select id="filter-style" class="w-full appearance-none bg-off-white border border-[#D9D4CB] hover:border-charcoal focus:border-charcoal focus:outline-none rounded-lg px-3.5 py-2.5 text-sm text-charcoal cursor-pointer">
+                <option value="all">Tất cả phong cách</option>
+                <option value="classic">Cổ điển cung đình</option>
+                <option value="modern-remix">Phối đương đại</option>
+                <option value="minimal">Tối giản thanh lịch</option>
+                <option value="streetwear">Streetwear phá cách</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-charcoal-muted">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       3. TỦ ĐỒ ẢO (VIRTUAL CLOSET)
+       - Layout lưới (Grid) hiển thị thẻ trang phục
+       - Dưới mỗi ảnh có nhãn (tags) nhỏ như "Áo tấc", "Lụa", "Màu lục"
+       - Nút "Upload" nổi bật + Sự kiện JS hiển thị dòng trạng thái:
+         "AI đang xóa nền và gắn thẻ..."
+  ========================================================== -->
+  <main class="py-12 sm:py-16 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    
+    <!-- =========================================================
+         PHẦN 4: THANH TÌM KIẾM THÔNG MINH (SEARCH BAR)
+         Thiết kế tối giản, bo góc nhẹ ở đầu khu vực "Tủ đồ ảo"
+    ========================================================== -->
+    <div class="mb-8">
+      <div class="relative max-w-xl">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-charcoal-muted">
+          <!-- Icon kính lúp nét mảnh -->
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </div>
+        <input
+          type="text"
+          id="closet-search-input"
+          oninput="handleClosetSearch(this.value)"
+          placeholder="Tìm kiếm áo tấc, áo giao lĩnh, nhật bình, phụ kiện..."
+          class="w-full pl-11 pr-4 py-3 bg-surface-card border border-stone-border rounded-xl text-sm text-charcoal placeholder-charcoal-muted/70 focus:outline-none focus:border-charcoal transition shadow-xs"
+        />
+      </div>
+    </div>
+
+    <!-- Tiêu đề & Bảng Điều Khiển Upload (Yêu cầu 2: 2 nút Tải từ thiết bị & Trích xuất Drive) -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-stone-border">
+      <div>
+        <h2 class="font-serif text-3xl font-medium text-charcoal">Tủ Đồ Ảo (Virtual Closet)</h2>
+        <p class="text-sm text-charcoal-muted mt-1">Danh mục trang phục cá nhân hoá với thẻ nhận diện chất liệu và phom dáng.</p>
+      </div>
+
+      <!-- Bảng điều khiển nhỏ gồm 2 nút -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <!-- Nút 1: Tải ảnh từ thiết bị -->
+        <button 
+          id="btn-upload-closet" 
+          onclick="triggerUploadAction()"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-charcoal hover:bg-[#1A1A1A] text-off-white text-xs font-semibold rounded-lg shadow-xs transition active:scale-95 cursor-pointer"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+          </svg>
+          <span>Tải ảnh từ thiết bị</span>
+        </button>
+
+        <!-- Nút 2: Trích xuất từ Google Drive -->
+        <button 
+          id="btn-extract-gdrive" 
+          onclick="handleExtractGoogleDrive()"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-charcoal bg-off-white hover:bg-surface-warm text-charcoal text-xs font-semibold rounded-lg shadow-xs transition active:scale-95 cursor-pointer"
+        >
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/>
+          </svg>
+          <span>Trích xuất từ Google Drive</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dòng trạng thái giả lập AI (Ẩn ban đầu, hiện lên khi bấm Upload từ thiết bị) -->
+    <div id="ai-status-container" class="hidden my-6 p-4 rounded-xl bg-surface-warm border border-charcoal shadow-sm transition-all">
+      <div class="flex items-center gap-3.5">
+        <div class="w-8 h-8 rounded-full bg-charcoal text-off-white flex items-center justify-center animate-spin">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        </div>
+        <div>
+          <!-- Dòng trạng thái theo đúng yêu cầu người dùng -->
+          <p id="ai-status-text" class="text-sm font-semibold text-charcoal">
+            AI đang xóa nền và gắn thẻ...
+          </p>
+          <p class="text-xs text-charcoal-muted mt-0.5">
+            Đang nhận diện hoa văn cổ truyền, bóc tách phom dáng và gán thẻ chất liệu tự động.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout lưới (Grid) hiển thị các thẻ ảnh trang phục -->
+    <div id="closet-grid" class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
+      <!-- Các thẻ trang phục được render linh hoạt bởi Vanilla JS -->
+    </div>
+
+    <!-- =========================================================
+         PHẦN 2: KHU VỰC "STUDIO PHỐI ĐỒ" (CANVAS)
+         1. Không gian chia 2 phần: Sidebar thu nhỏ + Canvas lớn ở giữa
+         2. Logic Kéo - thả (Drag & Drop) từ Sidebar vào Canvas
+         3. Nút "AI Gợi ý" tự động thêm 3 món vào Canvas
+         4. Modal "Thử đồ ảo" 3 bước AI
+    ========================================================== -->
+    <section id="studio-remix-workspace" class="mt-16 pt-12 border-t border-stone-border">
+      
+      <!-- Tiêu đề & Các nút điều khiển Studio -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-stone-border mb-8">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-charcoal-muted block mb-1">Không Gian Sáng Tạo</span>
+          <h2 class="font-serif text-3xl font-medium text-charcoal">Studio Phối Đồ (Canvas)</h2>
+          <p class="text-sm text-charcoal-muted mt-1">Kéo các món đồ từ thanh bên thả vào vùng Canvas để phối trang phục.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Nút "AI Gợi ý" (Yêu cầu 3) -->
+          <button id="btn-ai-suggest" onclick="handleAiSuggest()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-charcoal hover:bg-[#3D3F43] text-off-white text-xs uppercase tracking-wider font-semibold rounded-lg shadow-xs transition active:scale-95 cursor-pointer">
+            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+            <span>AI Gợi Ý</span>
+          </button>
+
+          <!-- Nút "Thử đồ ảo" AI (Yêu cầu 3 Giai đoạn 4) -->
+          <button id="btn-virtual-tryon" onclick="openVirtualTryOn()" class="inline-flex items-center gap-2 px-4 py-2.5 border border-charcoal bg-off-white text-charcoal hover:bg-charcoal hover:text-off-white text-xs uppercase tracking-wider font-semibold rounded-lg shadow-xs transition active:scale-95 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span>Thử Đồ Ảo AI</span>
+          </button>
+
+          <button id="btn-clear-canvas" onclick="clearCanvas()" class="px-3 py-2 text-xs text-[#8C3130] border border-stone-border hover:bg-surface-warm rounded-lg transition" title="Xóa Canvas">
+            Xóa hết
+          </button>
+        </div>
+      </div>
+
+      <!-- Không gian làm việc: Sidebar thu nhỏ + Canvas lớn ở giữa -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- THANH BÊN (Sidebar): Chứa các món đồ thu nhỏ có thể kéo -->
+        <aside class="lg:col-span-4 bg-surface-card rounded-2xl border border-stone-border p-5 shadow-xs flex flex-col h-[560px]">
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-stone-border">
+            <h3 class="font-serif text-lg font-semibold text-charcoal">Kho Đồ Thu Nhỏ</h3>
+            <span class="text-xs text-charcoal-muted">Kéo thả vào Canvas</span>
+          </div>
+
+          <div id="sidebar-items-list" class="flex-1 overflow-y-auto space-y-2.5 pr-1">
+            <!-- Render danh sách đồ thu nhỏ có thuộc tính draggable="true" -->
+          </div>
+        </aside>
+
+        <!-- KHU VỰC CANVAS LỚN Ở GIỮA -->
+        <div class="lg:col-span-8 flex flex-col h-[560px]">
+          <div 
+            id="studio-canvas-dropzone"
+            class="flex-1 rounded-2xl border-2 border-dashed border-[#D9D4CB] bg-surface-card hover:border-charcoal/50 p-6 flex flex-col transition-all relative overflow-hidden"
+          >
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-stone-border text-xs text-charcoal-muted">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                <span class="font-medium text-charcoal">Bảng Phối Trang Phục</span>
+              </div>
+              <span id="canvas-items-count">0 món trên Canvas</span>
+            </div>
+
+            <!-- Khung trống khi chưa có đồ -->
+            <div id="canvas-empty-state" class="flex-1 flex flex-col items-center justify-center text-center p-8 select-none">
+              <div class="w-16 h-16 rounded-full border-2 border-dashed border-[#D9D4CB] flex items-center justify-center mb-3 text-charcoal-muted bg-off-white">
+                <svg class="w-8 h-8 opacity-60 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              </div>
+              <h4 class="font-serif text-xl font-normal text-charcoal">Kéo Thả Món Đồ Vào Vùng Này</h4>
+              <p class="text-xs text-charcoal-muted max-w-sm mt-1">Kéo các món trang phục từ thanh bên thả vào đây, hoặc nhấn nút <strong>"AI Gợi Ý"</strong> để tạo một bản phối mẫu.</p>
+            </div>
+
+            <!-- Vùng hiển thị các món đồ đã thả vào Canvas -->
+            <div id="canvas-items-container" class="hidden flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center overflow-y-auto">
+              <!-- Render các thẻ đồ trong canvas -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       MODAL GOOGLE DRIVE SYNC (Giai đoạn 4 - Yêu cầu 2)
+       Icon loading xoay tròn với: "Đang đồng bộ thư mục tài nguyên..."
+  ========================================================== -->
+  <div id="gdrive-sync-modal" class="hidden fixed inset-0 z-50 bg-[#141414]/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-surface-card border border-stone-border rounded-2xl max-w-sm w-full p-6 text-center shadow-xl">
+      <div class="w-12 h-12 rounded-full border-3 border-t-charcoal border-stone-border animate-spin mx-auto mb-4 flex items-center justify-center">
+        <svg class="w-5 h-5 text-charcoal" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/>
+        </svg>
+      </div>
+      <!-- Dòng chữ đúng theo yêu cầu -->
+      <h4 class="font-serif text-lg font-medium text-charcoal">Đang đồng bộ thư mục tài nguyên...</h4>
+      <p class="text-xs text-charcoal-muted mt-1">Đang trích xuất ảnh Việt phục và chất liệu từ Google Drive API.</p>
+    </div>
+  </div>
+
+  <!-- TOAST THÔNG BÁO DRIVE (Sau 2 giây: "Đã tải thành công 15 tài nguyên từ Drive") -->
+  <div id="gdrive-toast" class="hidden fixed bottom-6 right-6 z-50 bg-charcoal text-off-white px-5 py-3.5 rounded-xl shadow-lg border border-stone-border/30 flex items-center gap-3 transition-all">
+    <div class="w-5 h-5 rounded-full bg-emerald-500 text-charcoal flex items-center justify-center text-xs font-bold">✓</div>
+    <span class="text-xs sm:text-sm font-medium">Đã tải thành công 15 tài nguyên từ Drive</span>
+  </div>
+
+  <!-- =========================================================
+       MODAL "THỬ ĐỒ ẢO" 3 BƯỚC AI (Giai đoạn 4 - Yêu cầu 3)
+       Bước 1: "AI đang tự động tách nền trang phục..."
+       Bước 2: "Đang tải bối cảnh và Người mẫu ảo (Faceless Model) từ Google Drive để tránh vi phạm bản quyền..."
+       Bước 3: Khung ảnh lớn Người mẫu ảo vô diện + Nút "Đổi bối cảnh ngẫu nhiên"
+  ========================================================== -->
+  <div id="virtual-tryon-modal" class="hidden fixed inset-0 z-50 bg-[#141414]/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#1E1E1E] border border-[#3D3F43] rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl relative text-off-white flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header & Progress Indicator -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-[#333333] bg-[#181818]">
+        <div>
+          <h3 class="font-serif text-lg text-white font-medium">AI Virtual Try-On Studio</h3>
+          <p class="text-[11px] text-zinc-400">Quy trình thử đồ ảo 3 bước chuẩn bản quyền di sản</p>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <span id="tryon-step-badge" class="px-2.5 py-1 rounded-full text-[11px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            Bước 1/3
+          </span>
+          <button onclick="closeVirtualTryOn()" class="p-1 rounded-full text-zinc-400 hover:text-white transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 flex-1 flex flex-col justify-center">
+        
+        <!-- BƯỚC 1: "AI đang tự động tách nền trang phục..." -->
+        <div id="tryon-step-1" class="py-12 flex flex-col items-center justify-center text-center">
+          <div class="w-16 h-16 rounded-full border-2 border-t-amber-400 border-white/20 animate-spin flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <span class="text-[11px] font-mono uppercase tracking-widest text-amber-400/80 mb-1">Bước 1 / 3</span>
+          <h4 class="font-serif text-xl sm:text-2xl text-white font-normal">AI đang tự động tách nền trang phục...</h4>
+          <p class="text-xs text-zinc-400 max-w-sm mt-1.5 font-sans">Đang nhận diện các nếp vải lụa tơ tằm và khử viền nền đa sắc tự động.</p>
+        </div>
+
+        <!-- BƯỚC 2: "Đang tải bối cảnh và Người mẫu ảo (Faceless Model) từ Google Drive để tránh vi phạm bản quyền..." -->
+        <div id="tryon-step-2" class="hidden py-12 flex flex-col items-center justify-center text-center">
+          <div class="w-16 h-16 rounded-full border-2 border-t-sky-400 border-white/20 animate-spin flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-sky-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/>
+            </svg>
+          </div>
+          <span class="text-[11px] font-mono uppercase tracking-widest text-sky-400/80 mb-1">Bước 2 / 3</span>
+          <h4 class="font-serif text-lg sm:text-xl text-white font-normal max-w-lg">
+            Đang tải bối cảnh và Người mẫu ảo (Faceless Model) từ Google Drive để tránh vi phạm bản quyền...
+          </h4>
+          <p class="text-xs text-zinc-400 max-w-sm mt-1.5 font-sans">Đồng bộ thư viện người mẫu vô danh tính và bối cảnh di sản văn hoá.</p>
+        </div>
+
+        <!-- BƯỚC 3: Hiển thị kết quả Khung ảnh lớn + Nút "Đổi bối cảnh ngẫu nhiên" -->
+        <div id="tryon-step-3" class="hidden flex flex-col items-center">
+          <!-- Khung ảnh lớn -->
+          <div class="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-black/60 border border-[#444] shadow-2xl">
+            <img 
+              id="tryon-result-img" 
+              src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80" 
+              alt="Người mẫu ảo vô diện" 
+              class="w-full h-full object-cover transition-all duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div>
+
+            <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs text-emerald-300 font-sans">
+                ✓ Người mẫu ảo Vô diện (Faceless Model)
+              </span>
+              <span id="tryon-bg-index-label" class="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[11px] font-mono text-zinc-300">
+                Bối cảnh 01/5
+              </span>
+            </div>
+
+            <div class="absolute bottom-3.5 left-4 right-4">
+              <p id="tryon-preset-dynasty" class="text-[10px] font-mono uppercase tracking-widest text-amber-300">Cung Đình Huế</p>
+              <h4 id="tryon-preset-title" class="font-serif text-lg sm:text-xl text-white font-normal">Áo Nhật Bình & Bối Cảnh Điện Thái Hòa</h4>
+              <p id="tryon-preset-atmosphere" class="text-xs text-zinc-300 mt-0.5">Không gian hoàng cung trang nghiêm trầm mặc</p>
+            </div>
+          </div>
+
+          <!-- Dưới khung kết quả: Nút "Đổi bối cảnh ngẫu nhiên" -->
+          <div class="w-full mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-[#333]">
+            <span class="text-xs text-zinc-400 font-sans">Người mẫu vô diện đảm bảo không vi phạm bản quyền hình ảnh cá nhân.</span>
+            <div class="flex items-center gap-2">
+              <button 
+                id="btn-randomize-bg"
+                onclick="handleRandomizeBackground()"
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-semibold tracking-wide transition active:scale-95 cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                <span>Đổi bối cảnh ngẫu nhiên</span>
+              </button>
+              <button 
+                onclick="alert('Đã tải hình ảnh bản phối HD!')"
+                class="px-4 py-2.5 rounded-xl bg-white text-black text-xs font-semibold hover:bg-zinc-200 transition"
+              >
+                Tải ảnh HD
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-5 py-3 bg-[#151515] border-t border-[#292929] flex justify-between items-center text-xs text-zinc-400">
+        <span>Tự động tối ưu phom dáng phục trang</span>
+        <button onclick="closeVirtualTryOn()" class="text-white hover:underline">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       PHẦN 3: KHU VỰC "LOOKBOOK" (MẠNG XÃ HỘI)
+       1. Layout Masonry/Grid hiển thị outfit do người dùng tạo
+       2. Tương tác mạng xã hội: Trái tim, Bình luận, Lưu
+       3. Thẻ Thông tin Văn hóa khi click vào ảnh
+  ========================================================== -->
+  <section id="lookbook-section" class="mt-20 pt-14 border-t border-stone-border">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-stone-border mb-8">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-charcoal-muted block mb-1">Cộng Đồng Sáng Tạo</span>
+        <h2 class="font-serif text-3xl font-medium text-charcoal">Lookbook: Mạng Xã Hội Việt Phục</h2>
+        <p class="text-sm text-charcoal-muted mt-1">Các bản phối ấn tượng từ cộng đồng. Nhấp vào ảnh để xem <strong>Thẻ Thông tin Văn hóa</strong>.</p>
+      </div>
+      <span class="text-xs text-charcoal-muted">6 bản phối nổi bật</span>
+    </div>
+
+    <!-- Grid / Masonry Lookbook -->
+    <div id="lookbook-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-8">
+      <!-- Render linh hoạt bằng Javascript -->
+    </div>
+  </section>
+
+  <!-- MODAL "THẺ THÔNG TIN VĂN HÓA" (Yêu cầu 3) -->
+  <div id="culture-card-modal" class="hidden fixed inset-0 z-50 bg-[#141414]/75 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-surface-card border border-stone-border rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl relative text-charcoal flex flex-col max-h-[90vh]">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-stone-border bg-surface-warm">
+        <span class="text-xs uppercase tracking-widest font-medium text-charcoal-muted">Hồ Sơ Di Sản Văn Hóa</span>
+        <button onclick="closeCulturalCard()" class="p-1 rounded-full text-charcoal-muted hover:text-charcoal cursor-pointer">✕</button>
+      </div>
+
+      <div class="overflow-y-auto p-6 space-y-5">
+        <div class="flex gap-4 items-start">
+          <div class="w-32 aspect-[3/4] rounded-xl overflow-hidden bg-[#F2EFE9] shrink-0 border border-stone-border">
+            <img id="culture-modal-img" src="" alt="" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <span id="culture-modal-garment-type" class="inline-block px-2 py-0.5 rounded text-[10px] uppercase font-semibold bg-surface-warm text-[#8C3130] border border-[#DDD8CE] mb-1"></span>
+            <h3 id="culture-modal-title" class="font-serif text-xl font-medium text-charcoal"></h3>
+            <p id="culture-modal-dynasty" class="text-xs text-charcoal-muted mt-0.5"></p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-off-white border border-stone-border">
+          <h4 class="font-serif text-sm font-semibold text-charcoal mb-1">Nguồn Gốc Văn Hóa</h4>
+          <p id="culture-modal-origin" class="text-xs text-charcoal-muted leading-relaxed"></p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-surface-warm border border-stone-border">
+          <h4 class="font-serif text-sm font-semibold text-charcoal mb-1">Hoàn Cảnh Sử Dụng (Xưa & Nay)</h4>
+          <p id="culture-modal-usage" class="text-xs text-charcoal-muted leading-relaxed"></p>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 border-t border-stone-border bg-off-white flex justify-end">
+        <button onclick="closeCulturalCard()" class="px-4 py-1.5 border border-stone-border rounded-md text-xs hover:bg-surface-warm cursor-pointer">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Tối giản -->
+  <footer class="border-t border-stone-border py-8 bg-off-white text-center text-xs text-charcoal-muted">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-serif text-sm text-charcoal font-medium">Việt Phục Remix © 2026</p>
+      <p class="mt-1">Tôn vinh di sản may mặc Việt Nam qua lăng kính công nghệ và nghệ thuật phối đồ đương đại.</p>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       VANILLA JAVASCRIPT (Quản lý trạng thái, Lọc & Sự kiện Upload)
+  ========================================================== -->
+  <script>
+    // Dữ liệu trang phục Việt Phục mẫu
+    const GARMENTS_DATA = [
+      {
+        id: 1,
+        name: "Áo Tấc Cố Đô Cung Đình",
+        dynasty: "Triều Nguyễn (1802 - 1945)",
+        material: "Lụa tơ tằm dệt sa",
+        color: "Màu lục",
+        weather: "cool",
+        event: "ceremony",
+        style: "classic",
+        image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80",
+        tags: ["Áo tấc", "Lụa", "Màu lục", "Tay thụng"]
+      },
+      {
+        id: 2,
+        name: "Áo Nhật Bình Thêu Phượng",
+        dynasty: "Nội đình Triều Nguyễn",
+        material: "Gấm dệt kim tuyến",
+        color: "Màu hoàng kim",
+        weather: "cold",
+        event: "ceremony",
+        style: "classic",
+        image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80",
+        tags: ["Nhật bình", "Gấm kim tuyến", "Màu hoàng kim", "Ngũ sắc"]
+      },
+      {
+        id: 3,
+        name: "Áo Ngũ Thân Tay Chẽn Remix",
+        dynasty: "Cải tiến Đương đại",
+        material: "Lụa đũi tơ tằm",
+        color: "Màu chàm",
+        weather: "sunny",
+        event: "casual",
+        style: "modern-remix",
+        image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
+        tags: ["Áo ngũ thân", "Lụa", "Màu chàm", "Tay chẽn"]
+      },
+      {
+        id: 4,
+        name: "Áo Giao Lĩnh Nguyệt Bạch",
+        dynasty: "Triều Lê Sơ (Thế kỷ XV)",
+        material: "Vải đũi tơ tự nhiên",
+        color: "Màu nguyệt bạch",
+        weather: "spring",
+        event: "art",
+        style: "minimal",
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+        tags: ["Giao lĩnh", "Lụa tơ tằm", "Màu trắng ngà", "Tối giản"]
+      },
+      {
+        id: 5,
+        name: "Áo Đối Khâm Dáng Rộng Phá Cách",
+        dynasty: "Cảm hứng Triều Lý - Trần",
+        material: "Lụa sống dệt thô",
+        color: "Màu chu sa",
+        weather: "cool",
+        event: "casual",
+        style: "streetwear",
+        image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80",
+        tags: ["Đối khâm", "Lụa sống", "Màu chu sa", "Phối streetwear"]
+      },
+      {
+        id: 6,
+        name: "Áo Yếm Lụa Phối Suiting",
+        dynasty: "Remix Đương đại",
+        material: "Lụa satin cao cấp",
+        color: "Màu kem",
+        weather: "sunny",
+        event: "gala",
+        style: "modern-remix",
+        image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+        tags: ["Áo yếm", "Lụa", "Màu kem", "Dạ tiệc"]
+      },
+      {
+        id: 7,
+        name: "Áo Dài Ngũ Thân Nam Giản Lược",
+        dynasty: "Triều Nguyễn - Hiện Đại",
+        material: "Gấm mộc dệt chìm",
+        color: "Màu xám than",
+        weather: "cold",
+        event: "art",
+        style: "minimal",
+        image: "https://images.unsplash.com/photo-1506152983158-b4a74a01c721?auto=format&fit=crop&w=800&q=80",
+        tags: ["Áo ngũ thân", "Gấm mộc", "Màu xám", "Nam tính"]
+      },
+      {
+        id: 8,
+        name: "Khăn Vấn Lụa & Hài Nhung",
+        dynasty: "Truyền thống Cung đình",
+        material: "Nhung the thêu chỉ kim",
+        color: "Màu đen",
+        weather: "all",
+        event: "ceremony",
+        style: "classic",
+        image: "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=800&q=80",
+        tags: ["Phụ kiện", "Nhung the", "Màu đen", "Thêu tay"]
+      }
+    ];
+
+    let currentGarments = [...GARMENTS_DATA];
+
+    // Hàm render danh sách thẻ trang phục ra Grid
+    function renderCloset(items) {
+      const grid = document.getElementById("closet-grid");
+      const counter = document.getElementById("filtered-counter");
+      
+      if (counter) counter.innerText = `Hiển thị ${items.length} trang phục`;
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-16 bg-surface-warm rounded-2xl border border-dashed border-stone-border">
+            <p class="font-serif text-xl text-charcoal">Không tìm thấy trang phục phù hợp</p>
+            <p class="text-sm text-charcoal-muted mt-1">Hãy điều chỉnh lại bộ lọc thời tiết, sự kiện hoặc phong cách.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => `
+        <div class="group cursor-pointer bg-surface-card rounded-xl border border-stone-border hover:border-charcoal overflow-hidden transition-all duration-300 ease-out transform-gpu hover:-translate-y-1.5 hover:scale-[1.02] shadow-xs hover:shadow-[0_16px_32px_-8px_rgba(38,38,38,0.12),0_4px_12px_-2px_rgba(38,38,38,0.06)] will-change-transform flex flex-col">
+          <!-- Ảnh trang phục -->
+          <div class="relative aspect-[3/4] bg-[#F2EFE9] overflow-hidden">
+            <img 
+              src="${item.image}" 
+              alt="${item.name}" 
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+              onerror="this.src='https://placehold.co/600x800/262626/FAF8F5?text=${encodeURIComponent(item.name)}'"
+            />
+            <div class="absolute top-3 left-3">
+              <span class="inline-block px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-sm bg-[#FAF8F5]/90 text-charcoal border border-stone-border backdrop-blur-xs">
+                ${item.dynasty}
+              </span>
+            </div>
+          </div>
+
+          <!-- Chi tiết & Nhãn tags bên dưới ảnh -->
+          <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <p class="text-xs text-charcoal-muted mb-1">${item.material}</p>
+              <h3 class="font-serif text-lg font-medium text-charcoal leading-snug group-hover:underline">
+                ${item.name}
+              </h3>
+            </div>
+
+            <!-- Các nhãn (tags) nhỏ như "Áo tấc", "Lụa", "Màu lục" -->
+            <div class="mt-4 pt-3 border-t border-[#F2EFE9] flex flex-wrap gap-1.5">
+              ${item.tags.map(tag => `
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-sans bg-off-white text-charcoal-muted border border-stone-border">
+                  #${tag}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // =======================================================
+    // GIAI ĐOẠN 4: THANH TÌM KIẾM THÔNG MINH & BỘ LỌC
+    // =======================================================
+    let searchQuery = "";
+
+    function handleClosetSearch(query) {
+      searchQuery = (query || "").trim().toLowerCase();
+      applyFilters();
+    }
+
+    // Logic Lọc theo: Tìm kiếm + Thời tiết, Sự kiện, Phong cách
+    function applyFilters() {
+      const weatherVal = document.getElementById("filter-weather")?.value || "all";
+      const eventVal = document.getElementById("filter-event")?.value || "all";
+      const styleVal = document.getElementById("filter-style")?.value || "all";
+
+      const filtered = currentGarments.filter(item => {
+        const matchWeather = (weatherVal === 'all' || item.weather === 'all' || item.weather === weatherVal);
+        const matchEvent = (eventVal === 'all' || item.event === eventVal);
+        const matchStyle = (styleVal === 'all' || item.style === styleVal);
+
+        const matchSearch = !searchQuery || (
+          item.name.toLowerCase().includes(searchQuery) ||
+          item.material.toLowerCase().includes(searchQuery) ||
+          item.dynasty.toLowerCase().includes(searchQuery) ||
+          item.tags.some(tag => tag.toLowerCase().includes(searchQuery))
+        );
+
+        return matchWeather && matchEvent && matchStyle && matchSearch;
+      });
+
+      renderCloset(filtered);
+    }
+
+    // Gắn sự kiện change cho 3 Dropdown
+    document.getElementById("filter-weather")?.addEventListener("change", applyFilters);
+    document.getElementById("filter-event")?.addEventListener("change", applyFilters);
+    document.getElementById("filter-style")?.addEventListener("change", applyFilters);
+
+    // =======================================================
+    // GIAI ĐOẠN 4: TRÍCH XUẤT TỪ GOOGLE DRIVE
+    // Modal xoay tròn: "Đang đồng bộ thư mục tài nguyên..."
+    // Sau 2s: Toast "Đã tải thành công 15 tài nguyên từ Drive"
+    // =======================================================
+    function handleExtractGoogleDrive() {
+      const driveModal = document.getElementById("gdrive-sync-modal");
+      const driveToast = document.getElementById("gdrive-toast");
+
+      if (driveModal) driveModal.classList.remove("hidden");
+
+      setTimeout(() => {
+        if (driveModal) driveModal.classList.add("hidden");
+
+        // Bổ sung tài nguyên từ Drive vào Tủ đồ
+        const driveItems = [
+          {
+            id: Date.now() + 1,
+            name: "Áo Tấc Thêu Hạc Mây (Google Drive)",
+            dynasty: "Cung Đình Triều Nguyễn",
+            material: "Tơ sen tự nhiên",
+            color: "Màu thiên thanh",
+            weather: "spring",
+            event: "ceremony",
+            style: "classic",
+            image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80",
+            tags: ["Áo tấc", "Google Drive", "Tơ sen", "Màu thiên thanh"]
+          },
+          {
+            id: Date.now() + 2,
+            name: "Áo Giao Lĩnh Cổ Đồ (Google Drive)",
+            dynasty: "Triều Lê Trung Hưng",
+            material: "Gấm dệt tơ vàng",
+            color: "Màu hoả hoàng",
+            weather: "cool",
+            event: "art",
+            style: "minimal",
+            image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
+            tags: ["Giao lĩnh", "Google Drive", "Gấm tơ", "Triều Lê"]
+          }
+        ];
+
+        currentGarments = [...driveItems, ...currentGarments];
+        applyFilters();
+
+        // Hiện Toast thông báo chính xác theo yêu cầu
+        if (driveToast) {
+          driveToast.classList.remove("hidden");
+          setTimeout(() => {
+            driveToast.classList.add("hidden");
+          }, 3500);
+        }
+      }, 2000);
+    }
+
+    // =======================================================
+    // SỰ KIỆN NÚT UPLOAD TỪ THIẾT BỊ: Hiện dòng trạng thái giả lập:
+    // "AI đang xóa nền và gắn thẻ..."
+    // =======================================================
+    function triggerUploadAction() {
+      const statusBox = document.getElementById("ai-status-container");
+      const statusText = document.getElementById("ai-status-text");
+
+      // Hiện khung trạng thái
+      statusBox.classList.remove("hidden");
+      // Hiển thị đúng dòng trạng thái theo yêu cầu
+      statusText.innerText = "AI đang xóa nền và gắn thẻ...";
+      statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Giả lập sau 2.5 giây hoàn thành việc xóa nền và thêm thẻ trang phục mới
+      setTimeout(() => {
+        statusText.innerText = "Thành công! Đã tự động gắn thẻ: #Áo tấc, #Lụa, #Màu lục";
+        
+        // Thêm trang phục mới vào tủ đồ
+        const newItem = {
+          id: Date.now(),
+          name: "Áo Tấc Cách Tân Lục Bảo (Mới Tải Lên)",
+          dynasty: "Cải cách Triều Nguyễn",
+          material: "Lụa tơ tằm dệt nổi vân",
+          color: "Màu lục",
+          weather: "cool",
+          event: "ceremony",
+          style: "classic",
+          image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80",
+          tags: ["Áo tấc", "Lụa", "Màu lục", "Đã tách nền AI"]
+        };
+
+        currentGarments.unshift(newItem);
+        applyFilters();
+
+        // Tự ẩn thông báo sau 2 giây
+        setTimeout(() => {
+          statusBox.classList.add("hidden");
+        }, 2200);
+      }, 2500);
+    }
+
+    // Gắn sự kiện click cho các nút Upload
+    document.getElementById("btn-upload-closet")?.addEventListener("click", triggerUploadAction);
+    document.getElementById("nav-upload-btn")?.addEventListener("click", triggerUploadAction);
+
+    // =======================================================
+    // PHẦN 2 JAVASCRIPT: STUDIO PHỐI ĐỒ (CANVAS), KÉO THẢ & AR
+    // =======================================================
+    let canvasGarments = [];
+
+    // 1. Render danh sách đồ thu nhỏ ở Sidebar
+    function renderStudioSidebar() {
+      const list = document.getElementById("sidebar-items-list");
+      if (!list) return;
+
+      list.innerHTML = GARMENTS_DATA.map(item => {
+        const isAdded = canvasGarments.some(c => c.id === item.id);
+        return `
+          <div 
+            id="drag-item-${item.id}"
+            draggable="true" 
+            ondragstart="onItemDragStart(event, ${item.id})"
+            onclick="addGarmentToCanvas(${item.id})"
+            class="group p-2.5 rounded-xl border transition-all cursor-grab active:cursor-grabbing flex items-center justify-between gap-3 ${
+              isAdded ? 'border-charcoal bg-surface-warm' : 'border-stone-border bg-off-white hover:border-charcoal hover:bg-white'
+            }"
+          >
+            <div class="flex items-center gap-2.5 min-w-0">
+              <svg class="w-4 h-4 text-charcoal-muted group-hover:text-charcoal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
+              <div class="w-11 h-13 rounded-lg overflow-hidden bg-[#EAE6DF] shrink-0 border border-stone-border">
+                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+              </div>
+              <div class="min-w-0">
+                <p class="font-serif text-xs font-medium text-charcoal truncate">${item.name}</p>
+                <p class="text-[10px] text-charcoal-muted truncate">${item.material}</p>
+                <span class="inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded bg-[#EFECE6] text-charcoal">#${item.tags[0]}</span>
+              </div>
+            </div>
+
+            <button 
+              type="button"
+              onclick="event.stopPropagation(); toggleGarmentCanvas(${item.id})"
+              class="w-6 h-6 rounded flex items-center justify-center shrink-0 text-xs ${
+                isAdded ? 'bg-charcoal text-off-white' : 'border border-stone-border hover:bg-charcoal hover:text-off-white'
+              }"
+            >
+              ${isAdded ? '✓' : '+'}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // 2. Kéo thả (Drag & Drop) API
+    function onItemDragStart(e, id) {
+      e.dataTransfer.setData("text/plain", id.toString());
+      e.dataTransfer.effectAllowed = "copy";
+    }
+
+    const dropzone = document.getElementById("studio-canvas-dropzone");
+    if (dropzone) {
+      dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+        dropzone.classList.add("border-charcoal", "bg-surface-warm");
+      });
+
+      dropzone.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("border-charcoal", "bg-surface-warm");
+      });
+
+      dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("border-charcoal", "bg-surface-warm");
+        const itemId = e.dataTransfer.getData("text/plain");
+        if (itemId) {
+          addGarmentToCanvas(parseInt(itemId, 10));
+        }
+      });
+    }
+
+    // Thêm món vào canvas
+    function addGarmentToCanvas(id) {
+      const item = GARMENTS_DATA.find(g => g.id === id);
+      if (!item) return;
+
+      if (!canvasGarments.some(c => c.id === id)) {
+        canvasGarments.push(item);
+        renderCanvas();
+        renderStudioSidebar();
+      }
+    }
+
+    function toggleGarmentCanvas(id) {
+      if (canvasGarments.some(c => c.id === id)) {
+        removeGarmentFromCanvas(id);
+      } else {
+        addGarmentToCanvas(id);
+      }
+    }
+
+    function removeGarmentFromCanvas(id) {
+      canvasGarments = canvasGarments.filter(c => c.id !== id);
+      renderCanvas();
+      renderStudioSidebar();
+    }
+
+    function clearCanvas() {
+      canvasGarments = [];
+      renderCanvas();
+      renderStudioSidebar();
+    }
+
+    // Render khu vực Canvas lớn
+    function renderCanvas() {
+      const emptyState = document.getElementById("canvas-empty-state");
+      const container = document.getElementById("canvas-items-container");
+      const countLabel = document.getElementById("canvas-items-count");
+
+      if (countLabel) countLabel.innerText = `${canvasGarments.length} món trên Canvas`;
+
+      if (canvasGarments.length === 0) {
+        if (emptyState) emptyState.classList.remove("hidden");
+        if (container) {
+          container.classList.add("hidden");
+          container.innerHTML = "";
+        }
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add("hidden");
+      if (container) {
+        container.classList.remove("hidden");
+        container.innerHTML = canvasGarments.map((item, idx) => `
+          <div class="relative bg-off-white rounded-xl border border-stone-border hover:border-charcoal p-3 shadow-xs flex flex-col items-center text-center">
+            <button 
+              onclick="removeGarmentFromCanvas(${item.id})"
+              class="absolute top-2 right-2 w-6 h-6 rounded-full bg-white text-charcoal-muted hover:text-red-700 border border-stone-border flex items-center justify-center text-xs"
+              title="Gỡ khỏi Canvas"
+            >
+              ✕
+            </button>
+            <span class="text-[10px] font-mono text-charcoal-muted uppercase mb-1">Lớp 0${idx + 1}</span>
+            <div class="w-full aspect-[3/4] max-h-48 rounded-lg overflow-hidden bg-[#EAE6DF] mb-2.5">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+            </div>
+            <p class="font-serif text-xs font-medium text-charcoal truncate w-full">${item.name}</p>
+            <p class="text-[10px] text-charcoal-muted truncate w-full">${item.material}</p>
+          </div>
+        `).join("");
+      }
+    }
+
+    // 3. Nút "AI Gợi ý": tự động chọn 3 món hài hòa thêm vào Canvas
+    function handleAiSuggest() {
+      const btn = document.getElementById("btn-ai-suggest");
+      const originalText = btn.innerHTML;
+      btn.innerHTML = "<span>Đang AI phối...</span>";
+      btn.disabled = true;
+
+      setTimeout(() => {
+        // Tự động phối 3 món tiêu biểu
+        const set3 = [GARMENTS_DATA[0], GARMENTS_DATA[1], GARMENTS_DATA[3]];
+        canvasGarments = [...set3];
+        renderCanvas();
+        renderStudioSidebar();
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }, 600);
+    }
+
+    // =======================================================
+    // GIAI ĐOẠN 4: LUỒNG AI TẠO NGƯỜI MẪU & GHÉP CẢNH (VIRTUAL TRY-ON NÂNG CAO)
+    // - Bước 1: "AI đang tự động tách nền trang phục..."
+    // - Bước 2: "Đang tải bối cảnh và Người mẫu ảo (Faceless Model) từ Google Drive để tránh vi phạm bản quyền..."
+    // - Bước 3: Hiển thị Người mẫu ảo vô diện + Nút "Đổi bối cảnh ngẫu nhiên"
+    // =======================================================
+    const FACELESS_MODELS_PRESETS = [
+      {
+        id: 1,
+        title: "Áo Nhật Bình & Bối Cảnh Điện Thái Hòa",
+        dynasty: "Cung Đình Triều Nguyễn",
+        atmosphere: "Hoàng cung cổ kính, tường gạch rêu phong và mái ngói lưu ly trầm mặc",
+        imageUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        id: 2,
+        title: "Áo Giao Lĩnh & Chùa Cổ Thăng Long",
+        dynasty: "Thời Lê Sơ (Thế kỷ XV)",
+        atmosphere: "Sân chùa gạch đỏ, rặng tre ngà và mây khói bảng lảng chiều tà",
+        imageUrl: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        id: 3,
+        title: "Áo Tấc & Bến Nước Sông Hương",
+        dynasty: "Triều Nguyễn (Thế kỷ XIX)",
+        atmosphere: "Bến thuyền sương sớm, nhịp cầu gỗ và liễu rủ bên bờ thành",
+        imageUrl: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        id: 4,
+        title: "Áo Ngũ Thân & Phố Cổ Hội An Ban Mai",
+        dynasty: "Thương Cảng Đàng Trong (Thế kỷ XVII)",
+        atmosphere: "Dãy nhà cổ tường vàng hoa giấy, đèn lồng lụa và ngõ nhỏ rêu phong",
+        imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        id: 5,
+        title: "Áo Đối Khâm & Hồ Sen Tịnh Tâm",
+        dynasty: "Triều Lý - Trần",
+        atmosphere: "Mặt nước sương phủ, hoa sen nở rộ thơm ngát và đình tạ bằng gỗ lim",
+        imageUrl: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=80"
+      }
+    ];
+
+    let currentBgIndex = 0;
+
+    function openVirtualTryOn() {
+      const modal = document.getElementById("virtual-tryon-modal");
+      const step1 = document.getElementById("tryon-step-1");
+      const step2 = document.getElementById("tryon-step-2");
+      const step3 = document.getElementById("tryon-step-3");
+      const badge = document.getElementById("tryon-step-badge");
+
+      if (!modal) return;
+      modal.classList.remove("hidden");
+
+      // Bắt đầu Bước 1: "AI đang tự động tách nền trang phục..."
+      if (step1) step1.classList.remove("hidden");
+      if (step2) step2.classList.add("hidden");
+      if (step3) step3.classList.add("hidden");
+      if (badge) {
+        badge.innerText = "Bước 1/3: Xử lý ảnh";
+        badge.className = "px-2.5 py-1 rounded-full text-[11px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      }
+
+      // Sau 1.5s -> Bước 2: "Đang tải bối cảnh và Người mẫu ảo (Faceless Model) từ Google Drive để tránh vi phạm bản quyền..."
+      setTimeout(() => {
+        if (step1) step1.classList.add("hidden");
+        if (step2) step2.classList.remove("hidden");
+        if (step3) step3.classList.add("hidden");
+        if (badge) {
+          badge.innerText = "Bước 2/3: Nạp dữ liệu";
+          badge.className = "px-2.5 py-1 rounded-full text-[11px] font-mono bg-sky-500/20 text-sky-300 border border-sky-500/30";
+        }
+
+        // Sau 1.8s -> Bước 3: Hiển thị kết quả Người mẫu ảo vô diện
+        setTimeout(() => {
+          if (step1) step1.classList.add("hidden");
+          if (step2) step2.classList.add("hidden");
+          if (step3) step3.classList.remove("hidden");
+          if (badge) {
+            badge.innerText = "Bước 3/3: Kết quả AI";
+            badge.className = "px-2.5 py-1 rounded-full text-[11px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+          }
+          updateTryOnDisplay();
+        }, 1800);
+      }, 1500);
+    }
+
+    function updateTryOnDisplay() {
+      const preset = FACELESS_MODELS_PRESETS[currentBgIndex];
+      const img = document.getElementById("tryon-result-img");
+      const title = document.getElementById("tryon-preset-title");
+      const dynasty = document.getElementById("tryon-preset-dynasty");
+      const atmosphere = document.getElementById("tryon-preset-atmosphere");
+      const bgLabel = document.getElementById("tryon-bg-index-label");
+
+      if (img) img.src = preset.imageUrl;
+      if (title) title.innerText = preset.title;
+      if (dynasty) dynasty.innerText = preset.dynasty;
+      if (atmosphere) atmosphere.innerText = preset.atmosphere;
+      if (bgLabel) bgLabel.innerText = "Bối cảnh 0" + (currentBgIndex + 1) + "/5";
+    }
+
+    // Đổi bối cảnh ngẫu nhiên (giả lập việc gọi AI tạo background mới)
+    function handleRandomizeBackground() {
+      const btn = document.getElementById("btn-randomize-bg");
+      let nextIndex = Math.floor(Math.random() * FACELESS_MODELS_PRESETS.length);
+      if (nextIndex === currentBgIndex) {
+        nextIndex = (currentBgIndex + 1) % FACELESS_MODELS_PRESETS.length;
+      }
+      currentBgIndex = nextIndex;
+
+      if (btn) {
+        btn.innerHTML = "<span>Đang AI kiến tạo cảnh mới...</span>";
+        btn.disabled = true;
+      }
+
+      setTimeout(() => {
+        updateTryOnDisplay();
+        if (btn) {
+          btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg><span>Đổi bối cảnh ngẫu nhiên</span>`;
+          btn.disabled = false;
+        }
+      }, 600);
+    }
+
+    function closeVirtualTryOn() {
+      const modal = document.getElementById("virtual-tryon-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    // =======================================================
+    // PHẦN 3 JAVASCRIPT: MẠNG XÃ HỘI LOOKBOOK & THẺ VĂN HÓA
+    // =======================================================
+    const LOOKBOOK_DATA = [
+      {
+        id: 1,
+        creator: "Hải Anh (@haianh.heritage)",
+        title: "Dạ Vũ Cố Đô: Áo Nhật Bình & Váy Xếp Ly",
+        image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=900&q=80",
+        likes: 248,
+        liked: false,
+        saved: false,
+        commentsCount: 18,
+        garmentType: "Áo Nhật Bình Cung Đình",
+        dynasty: "Triều Nguyễn (1807)",
+        origin: "Quy chế áo Nhật Bình định năm 1807 dành cho Hoàng Hậu, Công chúa và mệnh phụ. Cổ áo hình chữ nhật viền ngũ sắc tượng trưng cho ngũ hành.",
+        usage: "Nghi lễ tiểu triều, dạ tiệc cung đình thời xưa; phối cùng váy xếp ly dự tiệc văn hóa hiện nay."
+      },
+      {
+        id: 2,
+        creator: "Minh Hoàng (@minhhoang.remix)",
+        title: "Dạo Bước Phố Cũ: Áo Tấc & Quần Denim Thô",
+        image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=900&q=80",
+        likes: 312,
+        liked: true,
+        saved: true,
+        commentsCount: 24,
+        garmentType: "Áo Tấc (Ngũ thân tay thụng)",
+        dynasty: "Triều Nguyễn (Thế kỷ XIX)",
+        origin: "Lễ phục ngũ thân tay thụng, tay áo dài qua ngón 1 tấc khi chắp tay. 5 thân tượng trưng tứ thân phụ mẫu và chính mình, 5 cúc mang hàm nghĩa Ngũ thường.",
+        usage: "Tế lễ, cưới hỏi, tết xưa; nay remix cùng quần jean indigo dạo phố cổ."
+      },
+      {
+        id: 3,
+        creator: "Thục Uyên (@thucuyen.vintage)",
+        title: "Mây Sương Đoan Nhã: Giao Lĩnh Nguyệt Bạch",
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80",
+        likes: 195,
+        liked: false,
+        saved: false,
+        commentsCount: 14,
+        garmentType: "Áo Giao Lĩnh (Cổ chéo)",
+        dynasty: "Triều Lê Sơ (Thế kỷ XV)",
+        origin: "Cổ áo chéo hình chữ Y vắt sang phải với đai thắt lưng lụa, cổ trang tao nhã bậc nhất.",
+        usage: "Văn nhân đàm đạo, ngâm thơ xưa; nay là trang phục thiền trà, triển lãm nghệ thuật."
+      }
+    ];
+
+    let currentLooks = [...LOOKBOOK_DATA];
+
+    function renderLookbook() {
+      const grid = document.getElementById("lookbook-grid");
+      if (!grid) return;
+
+      grid.innerHTML = currentLooks.map(look => `
+        <article class="group bg-surface-card rounded-2xl border border-stone-border hover:border-charcoal overflow-hidden transition-all duration-300 ease-out transform-gpu hover:-translate-y-1.5 hover:scale-[1.015] shadow-xs hover:shadow-md flex flex-col justify-between">
+          <div class="p-4 border-b border-stone-border flex justify-between items-center text-xs">
+            <span class="font-semibold text-charcoal">${look.creator}</span>
+            <span class="text-charcoal-muted text-[11px]">${look.dynasty}</span>
+          </div>
+
+          <!-- Click vào ảnh mở Thẻ Thông tin Văn hóa -->
+          <div onclick="openCulturalCard(${look.id})" class="relative aspect-[4/5] bg-[#F2EFE9] overflow-hidden cursor-pointer">
+            <img src="${look.image}" alt="${look.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-charcoal/80 to-transparent text-off-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+              ℹ Nhấp xem Thẻ Thông Tin Văn Hóa
+            </div>
+          </div>
+
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <h3 onclick="openCulturalCard(${look.id})" class="font-serif text-base font-medium text-charcoal hover:underline cursor-pointer">${look.title}</h3>
+
+            <!-- Tương tác mạng xã hội: Tim, Bình luận, Lưu -->
+            <div class="mt-4 pt-3 border-t border-stone-border flex items-center justify-between text-xs">
+              <div class="flex items-center gap-4">
+                <button onclick="toggleLookbookLike(${look.id})" class="flex items-center gap-1 cursor-pointer ${look.liked ? 'text-red-700 font-bold' : 'text-charcoal-muted hover:text-charcoal'}">
+                  <span>${look.liked ? '♥' : '♡'}</span>
+                  <span>${look.likes}</span>
+                </button>
+                <button onclick="alert('Đã mở hộp bình luận cho outfit: ${look.title}')" class="flex items-center gap-1 text-charcoal-muted hover:text-charcoal cursor-pointer">
+                  <span>💬</span>
+                  <span>${look.commentsCount}</span>
+                </button>
+                <button onclick="toggleLookbookSave(${look.id})" class="cursor-pointer ${look.saved ? 'text-charcoal font-bold' : 'text-charcoal-muted hover:text-charcoal'}">
+                  ${look.saved ? '🔖 Đã lưu' : '🏷 Lưu'}
+                </button>
+              </div>
+              <button onclick="openCulturalCard(${look.id})" class="text-[11px] text-charcoal hover:underline">Văn hóa</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function toggleLookbookLike(id) {
+      currentLooks = currentLooks.map(l => {
+        if (l.id === id) {
+          const nextLiked = !l.liked;
+          return { ...l, liked: nextLiked, likes: nextLiked ? l.likes + 1 : l.likes - 1 };
+        }
+        return l;
+      });
+      renderLookbook();
+    }
+
+    function toggleLookbookSave(id) {
+      currentLooks = currentLooks.map(l => {
+        if (l.id === id) {
+          return { ...l, saved: !l.saved };
+        }
+        return l;
+      });
+      renderLookbook();
+    }
+
+    // Modal Thẻ Thông tin Văn hóa
+    function openCulturalCard(id) {
+      const look = currentLooks.find(l => l.id === id);
+      if (!look) return;
+
+      document.getElementById("culture-modal-img").src = look.image;
+      document.getElementById("culture-modal-garment-type").innerText = look.garmentType;
+      document.getElementById("culture-modal-title").innerText = look.title;
+      document.getElementById("culture-modal-dynasty").innerText = look.dynasty;
+      document.getElementById("culture-modal-origin").innerText = look.origin;
+      document.getElementById("culture-modal-usage").innerText = look.usage;
+
+      document.getElementById("culture-card-modal").classList.remove("hidden");
+    }
+
+    function closeCulturalCard() {
+      document.getElementById("culture-card-modal").classList.add("hidden");
+    }
+
+    // Render khởi tạo ban đầu
+    renderCloset(currentGarments);
+    renderStudioSidebar();
+    renderCanvas();
+    renderLookbook();
+  </script>
+</body>
+</html>
